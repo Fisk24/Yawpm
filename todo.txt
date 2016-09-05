@@ -1,14 +1,8 @@
+
+all programs tab should show a list of all executable files in the wine prefix
+
+shourtcuts
+
 in order to find all programs installed under a wine prefix, recursivly scan the Program Files directories searching for .exe files
 
-ls /home/fisk/.wine/drive_c/windows/system32/*cpl
 
-wine commands:
-	winecfg
-	wine control
-	wine control joy.cpl
-	wineboot
-	
-	
-
-known_prefixes.csv:
-	prefixdir, winearch, nickname

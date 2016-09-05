@@ -15,6 +15,15 @@ class PrefixManager():
     def getArch(self):
         return self.prefixes[self.currentIndex][2].strip()
 
+    def addPrefix(self, item):
+        self.prefixes.append(item)
+
+    def savePrefixList(self):
+        with open(self.file, "w", newline='') as csvfile:
+            csvwriter = csv.writer(csvfile, delimiter=",")
+            for i in self.prefixes:
+                csvwriter.writerow(i)
+
     def loadPrefixList(self):
         with open(self.file, "r", newline="\n") as prefixfile:
             csvreader = csv.reader(prefixfile, delimiter=",")
