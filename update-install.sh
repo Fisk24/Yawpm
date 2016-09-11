@@ -2,6 +2,9 @@
 
 export INSTALL="/opt/Yawpm"
 
+# create launcher
+cp yawpm.desktop /usr/share/applications/yawpm.desktop
+
 # Remove existing install inorder to makeway for the most upto date version
 rm -R $INSTALL
 
@@ -9,4 +12,4 @@ rm -R $INSTALL
 mkdir $INSTALL
 cd "/opt"
 
-git clone  
+git clone https://github.com/Fisk24/Yawpm.git
