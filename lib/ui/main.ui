@@ -168,23 +168,6 @@
               <property name="currentIndex">
                <number>0</number>
               </property>
-              <widget class="QWidget" name="tab">
-               <attribute name="title">
-                <string>All Programs</string>
-               </attribute>
-               <layout class="QGridLayout" name="gridLayout_5">
-                <item row="1" column="0">
-                 <widget class="QListWidget" name="allProgramsListWidget"/>
-                </item>
-                <item row="2" column="0">
-                 <widget class="QPushButton" name="refreshProgramsPushButton">
-                  <property name="text">
-                   <string>Refresh</string>
-                  </property>
-                 </widget>
-                </item>
-               </layout>
-              </widget>
               <widget class="QWidget" name="tabWidget_2Page1">
                <attribute name="title">
                 <string>Configuration</string>

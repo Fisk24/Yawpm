@@ -1,6 +1,6 @@
 #! /usr/bin/python3
 
-import sys, os
+import sys, os, re
 
 from PyQt4        import uic
 from PyQt4.QtGui  import *
@@ -20,6 +20,10 @@ class Yawpm(QMainWindow):
         super(Yawpm, self).__init__()
         # load ui files
         self.ui = uic.loadUi("lib/ui/main.ui", self)
+
+        # initialize prefix programs info list
+        # Keys = prefixNickName
+        self.prefixInfo = {}
         
         # initialize wine controls
         self.wine = WineControl()
@@ -29,6 +33,9 @@ class Yawpm(QMainWindow):
         self.manager.loadPrefixList()
 
         self.printList(self.manager.prefixes)
+
+        # Show ui
+        self.show()
 
         # populate ui
         self.populate()
@@ -86,7 +93,6 @@ class Yawpm(QMainWindow):
             item = QListWidgetItem(prefix[0], self.ui.prefixListWidget)
         self.ui.prefixListWidget.setCurrentRow(0)
 
-
     def printList(self, _list):
         for i in _list:
             print(i)
@@ -94,5 +100,4 @@ class Yawpm(QMainWindow):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     main = Yawpm()
-    main.show()
     sys.exit(app.exec_())
