@@ -37,11 +37,14 @@ class AddPrefixDialog(QDialog):
         # the incorrect arch
         
         if self.doWineBoot(pref, arch):
-            self.parent.manager.addPrefix([nick, pref, arch])
-            self.parent.manager.savePrefixList()
-            self.parent.populatePrefixList()
-            self.parent.updatePrefixInfo()
-            self.accept()
+            try:
+                self.parent.manager.addPrefix([nick, pref, arch])
+                self.parent.manager.savePrefixList()
+                self.parent.populatePrefixList()
+                self.parent.updatePrefixInfo()
+                self.accept()
+            except ValueError as e:
+                QMessageBox.critical(None, "Value Error", str(e))
 
     def doWineBoot(self, target, arch):
         # if a folder does not exist, create prefix
@@ -52,6 +55,8 @@ class AddPrefixDialog(QDialog):
                 os.rmdir(target)
                 self.parent.wine.setTargetPrefix(target, arch)
                 result = self.parent.wine.wineBoot()
+                if result.returncode == 1:
+                    QMessageBox.critical(None, "Wine Error!", result)
                 return not result.returncode
             except OSError as e:
                 print("########### {} ##########".format(e))
@@ -59,6 +64,8 @@ class AddPrefixDialog(QDialog):
                 if self.testIsPrefix(target):
                     self.parent.wine.setTargetPrefix(target, arch)
                     result = self.parent.wine.wineBoot()
+                    if result.returncode == 1:
+                        QMessageBox.critical(None, "Wine Error!", "The given wine architecture is incorrect: {}".format(arch))
                     return not result.returncode
                 else:
                     QMessageBox.critical(None, "Prefix Error!", "Supplied directory is not empty, and is not a preexisting wine prefix.")

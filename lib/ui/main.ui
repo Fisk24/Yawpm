@@ -30,6 +30,25 @@
        <attribute name="title">
         <string>Shortcuts</string>
        </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="1" column="2">
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="text">
+           <string>Create Application Launcher</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="3">
+         <widget class="QListWidget" name="listWidget"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="text">
+           <string>Remove</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="prefixTab">
        <attribute name="title">
@@ -173,7 +192,7 @@
                 <string>Configuration</string>
                </attribute>
                <layout class="QGridLayout" name="gridLayout_3">
-                <item row="1" column="0">
+                <item row="2" column="0">
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
                   <item>
                    <widget class="QToolButton" name="driveToolButton">
@@ -282,6 +301,13 @@
                   <property name="icon">
                    <iconset theme="utilities-terminal">
                     <normaloff>.</normaloff>.</iconset>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QPushButton" name="pushButton">
+                  <property name="text">
+                   <string>Create Shortcut</string>
                   </property>
                  </widget>
                 </item>
