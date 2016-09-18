@@ -15,6 +15,8 @@ from lib.ui.rpd  import RemovePrefixDialog
 # Config
 # Logger
 
+## prefixes.csv should be created if it does not exist and the prefered location for this file is in $USER/.config/yawpm/prefixes.csv
+
 class Yawpm(QMainWindow):
     def __init__(self):
         super(Yawpm, self).__init__()

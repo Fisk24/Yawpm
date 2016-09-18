@@ -16,6 +16,10 @@ class PrefixManager():
         return self.prefixes[self.currentIndex][2].strip()
 
     def addPrefix(self, item):
+        # [nick, dir, arch]
+        for prefix in self.prefixes:
+            if (item[0] == prefix[0]) or (item[1] == prefix[1]):
+                raise ValueError("Duplicate entries are not allowed!: {0} matches {1}".format(item, prefix))
         self.prefixes.append(item)
 
     def savePrefixList(self):
