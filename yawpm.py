@@ -54,6 +54,13 @@ class Yawpm(QMainWindow):
         self.ui.winetricksToolButton.clicked.connect(self.wine.winetricks)
         self.ui.addPrefixPushButton.clicked.connect(self.doAddPrefix)
         self.ui.removePrefixPushButton.clicked.connect(self.doRemovePrefix)
+        # when prefixListWidget data is changed
+
+    def listWidgetChanged(self):
+        # store prefix data from target index
+        # pop prefix from target index
+        # insert stored data at new index
+        print("CHANGE!!!!")
 
     def populate(self):
         self.populatePrefixList()

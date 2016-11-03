@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=League of Legends
+Comment=A multiplayer online battle arena by Riot Games
+Exec=env WINEPREFIX="/home/fisk/Wine Prefixes/League_of_Legends/" wine /home/fisk/Wine\ Prefixes/League_of_Legends/drive_c/Riot\ Games/League\ of\ Legends/lol.launcher.exe
+Icon=LeagueOfLegends
+Terminal=false
+Type=Application
+Categories=Games;Wine;
