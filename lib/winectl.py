@@ -15,10 +15,17 @@ class WineControl():
     def openWineDrive(self):
         proc = Popen(["xdg-open", "{}/drive_c".format(self.WINEPREFIX)])
 
-    def runInTarget(self, exe):
+    def runInTarget(self, exe, msi=False):
+        # wine msiexec /i xyz.msi
         previous = os.getcwd()
-        os.chdir(os.path.dirname(exe[0]))
-        proc = Popen(["env", 
+        if msi:
+            proc = Popen(["env", 
+                    "WINEPREFIX={}".format(self.WINEPREFIX), 
+                    "WINEARCH={}".format(self.WINEARCH), 
+                    "wine", "msiexec", "/i"]+exe)
+        else:
+            os.chdir(os.path.dirname(exe[0]))
+            proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
                     "WINEARCH={}".format(self.WINEARCH), 
                     "wine"]+exe)

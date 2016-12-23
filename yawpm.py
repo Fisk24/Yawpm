@@ -6,6 +6,7 @@ from PyQt4        import uic
 from PyQt4.QtGui  import *
 from PyQt4.QtCore import *
 
+from lib         import setup
 from lib.winectl import WineControl
 from lib.prefix  import PrefixManager
 from lib.ui.apd  import AddPrefixDialog
@@ -31,7 +32,7 @@ class Yawpm(QMainWindow):
         self.wine = WineControl()
         
         # initialize Prefix list manager
-        self.manager  = PrefixManager()
+        self.manager  = PrefixManager(_file=setup.PREFIXCSV)
         self.manager.loadPrefixList()
 
         self.printList(self.manager.prefixes)
@@ -78,7 +79,11 @@ class Yawpm(QMainWindow):
                                         "Select program to run.", 
                                         self.manager.getDir()+"/drive_c", 
                                         "Executable files (*.exe *.msi *.cpl *.bat *.cmd)")
-        self.wine.runInTarget([exe])
+        if exe != "":
+            if ".msi" in exe:
+                self.wine.runInTarget([exe], msi=True)
+            else:
+                self.wine.runInTarget([exe])
 
     def updatePrefixInfo(self):
         # change currentIndex in the manager
