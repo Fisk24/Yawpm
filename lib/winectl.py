@@ -4,13 +4,15 @@ from subprocess import Popen, run, CalledProcessError
 #### Wine controls should initiate an invisable dialog, to lock down the parent window while the control is running ####
 
 class WineControl():
-    def __init__(self, prefix="", arch="win32"):
+    def __init__(self, prefix="", wine="wine", arch="win32"):
         self.WINEPREFIX = prefix
         self.WINEARCH   = arch
+        self.WINEEXEC   = wine
 
-    def setTargetPrefix(self, prefix, arch="win64"):
+    def setTargetPrefix(self, prefix, wine, arch="win64"):
         self.WINEPREFIX = prefix
         self.WINEARCH   = arch
+        self.WINEEXEC   = wine
 
     def openWineDrive(self):
         proc = Popen(["xdg-open", "{}/drive_c".format(self.WINEPREFIX)])
@@ -18,17 +20,17 @@ class WineControl():
     def runInTarget(self, exe, msi=False):
         # wine msiexec /i xyz.msi
         previous = os.getcwd()
+        os.chdir(os.path.dirname(exe[0]))
         if msi:
             proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
                     "WINEARCH={}".format(self.WINEARCH), 
-                    "wine", "msiexec", "/i"]+exe)
+                    self.WINEEXEC, "msiexec", "/i"]+exe)
         else:
-            os.chdir(os.path.dirname(exe[0]))
             proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
                     "WINEARCH={}".format(self.WINEARCH), 
-                    "wine"]+exe)
+                    self.WINEEXEC]+exe)
         os.chdir(previous)
 
     def createWinePrefix(self):
@@ -38,6 +40,7 @@ class WineControl():
         proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
                     "WINEARCH={}".format(self.WINEARCH), 
+                    self.WINEEXEC,
                     "wineboot"])
         proc.wait()
 
@@ -53,31 +56,32 @@ class WineControl():
 
 
     def wineCfg(self):
-        proc = Popen(["env", "WINEPREFIX={}".format(self.WINEPREFIX), "WINEARCH={}".format(self.WINEARCH), "winecfg"])
+        proc = Popen(["env", "WINEPREFIX={}".format(self.WINEPREFIX), "WINEARCH={}".format(self.WINEARCH), self.WINEEXEC, "winecfg"])
         proc.wait()
 
     def wineControlPanel(self):
-        proc = Popen(["env", "WINEPREFIX={}".format(self.WINEPREFIX), "WINEARCH={}".format(self.WINEARCH), "wine", "control"])
+        proc = Popen(["env", "WINEPREFIX={}".format(self.WINEPREFIX), "WINEARCH={}".format(self.WINEARCH), self.WINEEXEC, "control"])
         proc.wait()
 
     def wineJoyStick(self):
         proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
                     "WINEARCH={}".format(self.WINEARCH), 
-                    "wine", "control", "joy.cpl"])
+                    self.WINEEXEC, 
+                    "control", "joy.cpl"])
         proc.wait()
 
     def wineAppWiz(self):
         proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
                     "WINEARCH={}".format(self.WINEARCH), 
-                    "wine", "control", "appwiz.cpl"])
+                    self.WINEEXEC, "control", "appwiz.cpl"])
         proc.wait()
 
     def wineInet(self):
         proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
                     "WINEARCH={}".format(self.WINEARCH), 
-                    "wine", "control", "inetcpl.cpl"])
+                    self.WINEEXEC, "control", "inetcpl.cpl"])
         proc.wait()
 

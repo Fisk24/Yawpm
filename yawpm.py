@@ -6,11 +6,12 @@ from PyQt4        import uic
 from PyQt4.QtGui  import *
 from PyQt4.QtCore import *
 
-from lib         import setup
-from lib.winectl import WineControl
-from lib.prefix  import PrefixManager
-from lib.ui.apd  import AddPrefixDialog
-from lib.ui.rpd  import RemovePrefixDialog
+from lib          import setup
+from lib.winectl  import WineControl
+from lib.prefix   import PrefixManager
+from lib.shortcut import ShortcutManager
+from lib.ui.apd   import AddPrefixDialog
+from lib.ui.rpd   import RemovePrefixDialog
 
 # Setup
 # Config
@@ -36,6 +37,10 @@ class Yawpm(QMainWindow):
         self.manager.loadPrefixList()
 
         self.printList(self.manager.prefixes)
+
+        # initialize Shortcut Manager
+        self.shortcut = ShortcutManager(setup.USER)
+        self.shortcut.scanShortcuts()
 
         # Show ui
         self.show()
@@ -65,7 +70,9 @@ class Yawpm(QMainWindow):
 
     def populate(self):
         self.populatePrefixList()
+        self.populateShortcutList()
         self.updatePrefixInfo()
+
 
     def doRemovePrefix(self):
         dialog = RemovePrefixDialog.getDialog(self)
@@ -90,15 +97,20 @@ class Yawpm(QMainWindow):
         self.manager.currentIndex = self.ui.prefixListWidget.currentRow()
 
         # new prefix values
-        dire = self.manager.getDir()
-        arch = self.manager.getArch()
+        dire  = self.manager.getDir()
+        arch  = self.manager.getArch()
+        exec_ = self.manager.getExec()
 
         # change the targeted wine prefix
-        self.wine.setTargetPrefix(dire, arch)
+        self.wine.setTargetPrefix(dire, exec_, arch)
 
         # change UI info
         self.ui.prefixDirectoryLabel.setText(dire)
         self.ui.prefixArchitectureLabel.setText(arch)
+        if exec_ == "wine":
+            self.ui.prefixExecutableLabel.setText("System Default")
+        else:
+            self.ui.prefixExecutableLabel.setText(exec_)
 
     def populatePrefixList(self):
         self.ui.prefixListWidget.clear()
@@ -106,6 +118,24 @@ class Yawpm(QMainWindow):
             # Create listWidgetItem Object with the nickname text
             item = QListWidgetItem(prefix[0], self.ui.prefixListWidget)
         self.ui.prefixListWidget.setCurrentRow(0)
+
+    def populateShortcutList(self):
+        # Clear the list widget, then fill it with shortcuts
+        self.ui.shortcutListWidget.clear()
+        for shortcut in self.shortcut.shortcuts:
+            # create the listWidgetItem using the information in the shortcut manager
+            #
+            # Decide how to create the icon object for the shortcut in the listWidget
+            if os.path.isfile(shortcut["Icon"]):
+                icon = QIcon(shortcut["Icon"])
+            else:
+                icon = QIcon().fromTheme(shortcut["Icon"])
+            item = QListWidgetItem(
+                    icon,
+                    shortcut["Name"],
+                    self.ui.shortcutListWidget
+                    )
+        self.ui.shortcutListWidget.setCurrentRow(0)
 
     def printList(self, _list):
         for i in _list:

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>140</height>
+    <width>423</width>
+    <height>196</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,7 +16,14 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="1" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="2" column="1" colspan="2">
+     <item row="0" column="0" colspan="4">
+      <widget class="QLineEdit" name="nickNameLineEdit">
+       <property name="placeholderText">
+        <string>Nickname</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1" colspan="3">
       <widget class="QComboBox" name="archComboBox">
        <property name="enabled">
         <bool>true</bool>
@@ -33,7 +40,17 @@
        </item>
       </widget>
      </item>
-     <item row="2" column="0">
+     <item row="2" column="0" colspan="4">
+      <widget class="QPushButton" name="selectPrefixPushButton">
+       <property name="toolTip">
+        <string>Click this button to specify the location of the wine prefix that you wish to add. Wine files wil be created inside this exact directory. Becuase of this, an empty folder is prefered.</string>
+       </property>
+       <property name="text">
+        <string>Select Prefix Location</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
       <widget class="QLabel" name="archLabel">
        <property name="enabled">
         <bool>true</bool>
@@ -49,20 +66,33 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="0" colspan="3">
-      <widget class="QLineEdit" name="nickNameLineEdit">
-       <property name="placeholderText">
-        <string>Nickname</string>
+     <item row="1" column="3">
+      <widget class="QToolButton" name="browseNewWineToolButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>...</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="0" colspan="3">
-      <widget class="QPushButton" name="selectPrefixPushButton">
-       <property name="toolTip">
-        <string>Click this button to specify the location of the wine prefix that you wish to add. Wine files wil be created inside this exact directory. Becuase of this, an empty folder is prefered.</string>
-       </property>
+     <item row="1" column="0">
+      <widget class="QCheckBox" name="doNewWineCheckBox">
        <property name="text">
-        <string>Select Prefix Location</string>
+        <string>Wine Executable</string>
+       </property>
+       <property name="checked">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QLineEdit" name="newWineLineEdit">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="placeholderText">
+        <string>wine</string>
        </property>
       </widget>
      </item>
@@ -89,5 +119,38 @@
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>doNewWineCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>newWineLineEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>77</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>270</x>
+     <y>63</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>doNewWineCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>browseNewWineToolButton</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>77</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>401</x>
+     <y>63</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

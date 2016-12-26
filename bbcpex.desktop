@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=BlazBlue: Chronophantazma Extend
-Comment=A fast paced fighting game by Arc Systemworks
-Exec=env WINEPREFIX="/home/fisk/Wine Prefixes/bbce" wine "/home/fisk/Wine Prefixes/bbce/drive_c/Program Files/Steam/steamapps/common/BlazBlue Chronophantasma Extend/BBCPEX.exe"
-Icon=/home/fisk/Wine Prefixes/bbce/drive_c/Program Files/Steam/steamapps/common/BlazBlue Chronophantasma Extend/1.ico
-Terminal=false
-Type=Application
-Categories=Games;Wine;

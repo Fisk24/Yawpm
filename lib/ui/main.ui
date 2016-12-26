@@ -39,7 +39,17 @@
          </widget>
         </item>
         <item row="0" column="0" colspan="3">
-         <widget class="QListWidget" name="listWidget"/>
+         <widget class="QListWidget" name="shortcutListWidget">
+          <property name="iconSize">
+           <size>
+            <width>32</width>
+            <height>32</height>
+           </size>
+          </property>
+          <property name="viewMode">
+           <enum>QListView::ListMode</enum>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0">
          <widget class="QPushButton" name="pushButton_2">
@@ -86,10 +96,10 @@
                <enum>QFrame::Sunken</enum>
               </property>
               <property name="dragEnabled">
-               <bool>true</bool>
+               <bool>false</bool>
               </property>
               <property name="dragDropMode">
-               <enum>QAbstractItemView::DragDrop</enum>
+               <enum>QAbstractItemView::NoDragDrop</enum>
               </property>
               <property name="defaultDropAction">
                <enum>Qt::MoveAction</enum>
@@ -143,43 +153,66 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
                <item row="0" column="0">
-                <widget class="QLabel" name="label">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
+                <widget class="QGroupBox" name="groupBox">
+                 <property name="title">
+                  <string>Prefix Information:</string>
                  </property>
-                 <property name="text">
-                  <string>Prefix Directory:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_2">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>Architecture:</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QLabel" name="prefixArchitectureLabel">
-                 <property name="text">
-                  <string>{ARCH}</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QLabel" name="prefixDirectoryLabel">
-                 <property name="text">
-                  <string>{DIRECTORY}</string>
-                 </property>
+                 <layout class="QGridLayout" name="gridLayout_6">
+                  <item row="1" column="1">
+                   <widget class="QLabel" name="prefixArchitectureLabel">
+                    <property name="text">
+                     <string>{ARCH}</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="label_2">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Architecture:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="label">
+                    <property name="sizePolicy">
+                     <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                      <horstretch>0</horstretch>
+                      <verstretch>0</verstretch>
+                     </sizepolicy>
+                    </property>
+                    <property name="text">
+                     <string>Directory:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLabel" name="prefixDirectoryLabel">
+                    <property name="text">
+                     <string>{DIRECTORY}</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_3">
+                    <property name="text">
+                     <string>Wine Executable:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLabel" name="prefixExecutableLabel">
+                    <property name="text">
+                     <string>{WINE}</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>
@@ -201,7 +234,7 @@
                 <string>Configuration</string>
                </attribute>
                <layout class="QGridLayout" name="gridLayout_3">
-                <item row="2" column="0">
+                <item row="3" column="0">
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
                   <item>
                    <widget class="QToolButton" name="driveToolButton">
@@ -210,7 +243,8 @@
                     </property>
                     <property name="icon">
                      <iconset theme="system-file-manager">
-                      <normaloff>.</normaloff>.</iconset>
+                      <normaloff/>
+                     </iconset>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -233,7 +267,8 @@
                     </property>
                     <property name="icon">
                      <iconset theme="applications-games">
-                      <normaloff>.</normaloff>.</iconset>
+                      <normaloff/>
+                     </iconset>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -250,7 +285,8 @@
                     </property>
                     <property name="icon">
                      <iconset theme="system-software-install">
-                      <normaloff>.</normaloff>.</iconset>
+                      <normaloff/>
+                     </iconset>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -267,7 +303,8 @@
                     </property>
                     <property name="icon">
                      <iconset theme="system-software-update">
-                      <normaloff>.</normaloff>.</iconset>
+                      <normaloff/>
+                     </iconset>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -284,7 +321,8 @@
                     </property>
                     <property name="icon">
                      <iconset theme="preferences-system">
-                      <normaloff>.</normaloff>.</iconset>
+                      <normaloff/>
+                     </iconset>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -296,7 +334,14 @@
                   </item>
                  </layout>
                 </item>
-                <item row="0" column="0">
+                <item row="2" column="0">
+                 <widget class="QPushButton" name="pushButton">
+                  <property name="text">
+                   <string>Create Shortcut</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
                  <widget class="QPushButton" name="runInPushButton">
                   <property name="sizePolicy">
                    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -309,14 +354,8 @@
                   </property>
                   <property name="icon">
                    <iconset theme="utilities-terminal">
-                    <normaloff>.</normaloff>.</iconset>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QPushButton" name="pushButton">
-                  <property name="text">
-                   <string>Create Shortcut</string>
+                    <normaloff/>
+                   </iconset>
                   </property>
                  </widget>
                 </item>

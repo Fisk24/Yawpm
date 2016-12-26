@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name={name}
+Comment={comm}
+Exec={_exec}
+Icon={icon}
+Terminal={term}
+Type=Application
+Catagories=Wine;{cata}

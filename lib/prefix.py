@@ -4,7 +4,7 @@ class PrefixManager():
     def __init__(self, _file="prefixes.csv"):
         self.file = _file
         self.currentIndex = 0
-        self.prefixes = [] # [nick, dir, arch]
+        self.prefixes = [] # [nick, dir, arch, exec]
 
     def getNick(self):
         return self.prefixes[self.currentIndex][0].strip()
@@ -14,6 +14,9 @@ class PrefixManager():
 
     def getArch(self):
         return self.prefixes[self.currentIndex][2].strip()
+
+    def getExec(self):
+        return self.prefixes[self.currentIndex][3].strip()
 
     def addPrefix(self, item):
         # [nick, dir, arch]
