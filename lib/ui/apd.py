@@ -96,7 +96,7 @@ class AddPrefixDialog(QDialog):
                         QMessageBox.critical(None, "Wine Error!", "An unspecified error has occured. Is the architecture wrong?")
                     return not result.returncode
                 else:
-                    QMessageBox.critical(None, "Prefix Error!", "Supplied directory is not empty, and is not a preexisting wine prefix.")
+                    QMessageBox .critical(None, "Prefix Error!", "Supplied directory is not empty, and is not a preexisting wine prefix.")
                     return 0
 
             except FileNotFoundError:

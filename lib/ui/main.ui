@@ -21,7 +21,7 @@
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="movable">
        <bool>false</bool>
@@ -32,7 +32,7 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
         <item row="1" column="2">
-         <widget class="QPushButton" name="pushButton_3">
+         <widget class="QPushButton" name="addShortcutPushButton">
           <property name="text">
            <string>Create Application Launcher</string>
           </property>
@@ -55,6 +55,13 @@
          <widget class="QPushButton" name="pushButton_2">
           <property name="text">
            <string>Remove</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QPushButton" name="pushButton_3">
+          <property name="text">
+           <string>Edit</string>
           </property>
          </widget>
         </item>

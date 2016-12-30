@@ -12,6 +12,7 @@ from lib.prefix   import PrefixManager
 from lib.shortcut import ShortcutManager
 from lib.ui.apd   import AddPrefixDialog
 from lib.ui.rpd   import RemovePrefixDialog
+from lib.ui.asd   import AddShortcutDialog
 
 # Setup
 # Config
@@ -39,7 +40,7 @@ class Yawpm(QMainWindow):
         self.printList(self.manager.prefixes)
 
         # initialize Shortcut Manager
-        self.shortcut = ShortcutManager(setup.USER)
+        self.shortcut = ShortcutManager(self, setup.USER)
         self.shortcut.scanShortcuts()
 
         # Show ui
@@ -60,6 +61,10 @@ class Yawpm(QMainWindow):
         self.ui.winetricksToolButton.clicked.connect(self.wine.winetricks)
         self.ui.addPrefixPushButton.clicked.connect(self.doAddPrefix)
         self.ui.removePrefixPushButton.clicked.connect(self.doRemovePrefix)
+        # when a shortcut is double-clicked in the shortcutListView
+        self.ui.shortcutListWidget.itemDoubleClicked.connect(self.doLaunchShortcut)
+        # when the add shortcut is clicked
+        self.ui.addShortcutPushButton.clicked.connect(self.doAddShortcut)
         # when prefixListWidget data is changed
 
     def listWidgetChanged(self):
@@ -73,6 +78,13 @@ class Yawpm(QMainWindow):
         self.populateShortcutList()
         self.updatePrefixInfo()
 
+    def doLaunchShortcut(self):
+        # Launches a shortcut from a specified index location
+        index = self.ui.shortcutListWidget.currentRow()
+        self.shortcut.launchShortcut(index)
+
+    def doAddShortcut(self):
+        dialog = AddShortcutDialog.getDialog(self)           
 
     def doRemovePrefix(self):
         dialog = RemovePrefixDialog.getDialog(self)
@@ -118,6 +130,10 @@ class Yawpm(QMainWindow):
             # Create listWidgetItem Object with the nickname text
             item = QListWidgetItem(prefix[0], self.ui.prefixListWidget)
         self.ui.prefixListWidget.setCurrentRow(0)
+
+    def updateShortcutList(self):
+        self.shortcut.scanShortcuts()
+        self.populateShortcutList()
 
     def populateShortcutList(self):
         # Clear the list widget, then fill it with shortcuts

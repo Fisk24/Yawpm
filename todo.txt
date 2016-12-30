@@ -1,10 +1,5 @@
-yawpm crashes when the prefixes.csv is empty
-
-yawpm needs to generate prefixes.cev if it does not exist
 
 all programs tab should show a list of all executable files in the wine prefix
-
-shourtcuts
 
 in order to find all programs installed under a wine prefix, recursivly scan the Program Files directories searching for .exe files
 
