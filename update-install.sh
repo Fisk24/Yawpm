@@ -12,4 +12,6 @@ rm -R $INSTALL
 mkdir $INSTALL
 cd "/opt"
 
+sudo pacman -S python-pyqt4 wine winetricks
 git clone https://github.com/Fisk24/Yawpm.git
+

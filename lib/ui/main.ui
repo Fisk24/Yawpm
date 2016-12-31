@@ -21,7 +21,7 @@
        <enum>QTabWidget::West</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="movable">
        <bool>false</bool>
@@ -245,6 +245,9 @@
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
                   <item>
                    <widget class="QToolButton" name="driveToolButton">
+                    <property name="toolTip">
+                     <string>Open prefix in filemanager</string>
+                    </property>
                     <property name="text">
                      <string/>
                     </property>
@@ -269,6 +272,9 @@
                       <verstretch>0</verstretch>
                      </sizepolicy>
                     </property>
+                    <property name="toolTip">
+                     <string>Configure Controllers</string>
+                    </property>
                     <property name="text">
                      <string>...</string>
                     </property>
@@ -287,6 +293,9 @@
                   </item>
                   <item>
                    <widget class="QToolButton" name="installedToolButton">
+                    <property name="toolTip">
+                     <string>Add/Remove Programs</string>
+                    </property>
                     <property name="text">
                      <string>...</string>
                     </property>
@@ -305,6 +314,9 @@
                   </item>
                   <item>
                    <widget class="QToolButton" name="winetricksToolButton">
+                    <property name="toolTip">
+                     <string>Winetricks</string>
+                    </property>
                     <property name="text">
                      <string>...</string>
                     </property>
@@ -323,6 +335,9 @@
                   </item>
                   <item>
                    <widget class="QToolButton" name="cfgToolButton">
+                    <property name="toolTip">
+                     <string>Wine Config</string>
+                    </property>
                     <property name="text">
                      <string>...</string>
                     </property>
