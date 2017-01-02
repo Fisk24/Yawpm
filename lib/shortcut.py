@@ -47,8 +47,11 @@ class ShortcutManager():
         print(exec_line)
         return exec_line
 
-    def delShortcut(self):
-        pass
+    def delShortcut(self, index):
+        filename = self.shortcuts[index]["filename"]
+        print("Deleted shortcut: {}".format(filename))
+        os.remove(self.systemDir+filename)
+        os.remove(self.localDir+filename)
 
     def launchShortcut(self, index):
         print(index)
@@ -60,16 +63,18 @@ class ShortcutManager():
         sclist = []
         for short in os.listdir(self.localDir):
             if short.endswith(".desktop"):
-                print(os.path.abspath(short))
-                print(short)
-                sclist.append(self.parseShort(self.localDir+"/"+short))
+                #print(os.path.abspath(short))
+                #print(short)
+                sclist.append(self.parseShort(self.localDir, short))
 
         self.shortcuts = sclist
 
-    def parseShort(self, short):
+    def parseShort(self, directory, filename):
         # Translate desktop files into a dictionary then return the dictionary
-        with open(short, "r") as sc:
-            scinfo = {}
+        short = directory+filename
+        scinfo = {}
+        scinfo["filename"] = filename
+        with open(short, "r") as sc: 
             for line in sc.readlines():
                 if "[Desktop Entry]" not in line:
                     x = line.split("=")
@@ -77,7 +82,7 @@ class ShortcutManager():
                     value = re.sub("("+x[0]+"=|\\n)", "", line)
                     scinfo[key] = value
 
-        print(scinfo)
+        #print(scinfo)
         return scinfo
 
     def legalize(self, x):

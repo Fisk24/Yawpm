@@ -65,7 +65,8 @@ class Yawpm(QMainWindow):
         self.ui.shortcutListWidget.itemDoubleClicked.connect(self.doLaunchShortcut)
         # when the add shortcut is clicked
         self.ui.addShortcutPushButton.clicked.connect(self.doAddShortcut)
-        # when prefixListWidget data is changed
+        # when the delete shortcut button is clicked
+        self.ui.delShortcutPushButton.clicked.connect(self.doDelShortcut)
 
     def listWidgetChanged(self):
         # store prefix data from target index
@@ -85,6 +86,15 @@ class Yawpm(QMainWindow):
 
     def doAddShortcut(self):
         dialog = AddShortcutDialog.getDialog(self)           
+
+    def doDelShortcut(self):
+        question = QMessageBox.question(self, "Delete shortcut?", "This action will delete this shortcut from your system", "Ok", "No Don't!")
+        # QMessagebox returns 0 for yes so the conditional needs to be inverted
+        if not question:
+            index = self.ui.shortcutListWidget.currentRow()
+            self.shortcut.delShortcut(index)
+            self.shortcut.scanShortcuts()
+            self.populateShortcutList()
 
     def doRemovePrefix(self):
         dialog = RemovePrefixDialog.getDialog(self)
