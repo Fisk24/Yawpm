@@ -21,14 +21,12 @@ class ShortcutManager():
 
         info["Exec"] = self.assembleExecLine(info)
 
-        self.initializeDesktopFile(filename)
-        self.writeDesktopFile(info, filename)
+        self.initializeDesktopFile(self.localDir+filename)
+        self.writeDesktopFile(info, self.localDir+filename)
         self.distributeDesktopFiles(filename)
 
     def distributeDesktopFiles(self, filename):
-        shutil.copyfile(filename, self.systemDir+filename)
-        shutil.copyfile(filename, self.localDir+filename)
-        os.remove(filename)
+        shutil.copyfile(self.localDir+filename, self.systemDir+filename)
 
     def writeDesktopFile(self, info, filename):
         for key in info:
