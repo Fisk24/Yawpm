@@ -9,7 +9,7 @@ DEFAULTPREFIX = "/home/{user}/.wine".format(user=USER)
 def genDefaultPrefixesCsv():
     if not os.path.isfile(PREFIXCSV):
         with open(PREFIXCSV,"w") as prefix:
-            prefix.write("Default,"+DEFAULTPREFIX+",win64")
+            prefix.write("Default,"+DEFAULTPREFIX+",win64,wine")
 
 def createReqFiles():
     os.makedirs(CONFIGROOT, exist_ok=True)
