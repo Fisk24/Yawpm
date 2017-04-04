@@ -49,7 +49,7 @@ class Yawpm(QMainWindow):
         # populate ui
         self.populate()
 
-        # connect buttons and others
+        ### connect buttons and others
         # When prefixListWidget changes selected item
         self.ui.prefixListWidget.itemSelectionChanged.connect(self.updatePrefixInfo)
         # When runInPushButton is clicked
@@ -67,6 +67,10 @@ class Yawpm(QMainWindow):
         self.ui.addShortcutPushButton.clicked.connect(self.doAddShortcut)
         # when the delete shortcut button is clicked
         self.ui.delShortcutPushButton.clicked.connect(self.doDelShortcut)
+        # when the Kill all button is pressed
+        self.ui.wkaPushButton.clicked.connect(self.doKillAllWineProcesses)
+        # when the basic debugging level is changed
+        self.ui.llComboBox.currentIndexChanged.connect(self.doChangeDebuggingLevelSimple)
 
     def listWidgetChanged(self):
         # store prefix data from target index
@@ -113,6 +117,14 @@ class Yawpm(QMainWindow):
                 self.wine.runInTarget([exe], msi=True)
             else:
                 self.wine.runInTarget([exe])
+
+    def doKillAllWineProcesses(self):
+        self.wine.wineKillAll()
+
+    def doChangeDebuggingLevelSimple(self):
+        self.wine.setDebugLevelSimple(level=self.ui.llComboBox.currentIndex())
+        # debug
+        print(self.wine.WINEDEBUG)
 
     def updatePrefixInfo(self):
         # change currentIndex in the manager

@@ -4,15 +4,27 @@ from subprocess import Popen, run, CalledProcessError
 #### Wine controls should initiate an invisable dialog, to lock down the parent window while the control is running ####
 
 class WineControl():
-    def __init__(self, prefix="", wine="wine", arch="win32"):
+    def __init__(self, prefix="", wine="wine", arch="win32", debug=""):
         self.WINEPREFIX = prefix
         self.WINEARCH   = arch
         self.WINEEXEC   = wine
+        self.WINEDEBUG  = debug
 
     def setTargetPrefix(self, prefix, wine, arch="win64"):
         self.WINEPREFIX = prefix
         self.WINEARCH   = arch
         self.WINEEXEC   = wine
+
+    def setDebugLevelSimple(self, level=0):
+        levels = [
+                "fixme+all, warn+all, trace+all, err+all",
+                "fixme-all, warn+all, trace+all, err+all",
+                "fixme-all, warn-all, trace+all, err+all",
+                "fixme-all, warn-all, trace-all, err+all",
+                "-all"
+                ]
+
+        self.WINEDEBUG = levels[level]
 
     def openWineDrive(self):
         proc = Popen(["xdg-open", "{}/drive_c".format(self.WINEPREFIX)])
@@ -24,12 +36,14 @@ class WineControl():
         if msi:
             proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
-                    "WINEARCH={}".format(self.WINEARCH), 
+                    "WINEARCH={}".format(self.WINEARCH),
+                    "WINEDEBUG={}".format(self.WINEDEBUG),
                     self.WINEEXEC, "msiexec", "/i"]+exe)
         else:
             proc = Popen(["env", 
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
-                    "WINEARCH={}".format(self.WINEARCH), 
+                    "WINEARCH={}".format(self.WINEARCH),
+                    "WINEDEBUG={}".format(self.WINEDEBUG),
                     self.WINEEXEC]+exe)
         os.chdir(previous)
 
@@ -84,4 +98,7 @@ class WineControl():
                     "WINEARCH={}".format(self.WINEARCH), 
                     self.WINEEXEC, "control", "inetcpl.cpl"])
         proc.wait()
+
+    def wineKillAll(self):
+        proc = Popen(["bash", "-c", "./lib/wka"])
 
