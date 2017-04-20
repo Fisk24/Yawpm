@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Yawpm
 Comment=Yet Another Wine Prefix Manager
-Exec=/usr/bin/bash -c 'cd /opt/Yawpm && python /opt/Yawpm/yawpm.py'
+Exec=/bin/bash -c 'cd /opt/Yawpm && python3 /opt/Yawpm/yawpm.py'
 Icon=wine
 Terminal=true
 Type=Application
