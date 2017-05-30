@@ -1,3 +1,4 @@
+
 #! /bin/bash
 
 export INSTALL="/opt/Yawpm"
@@ -9,7 +10,7 @@ echo "Would you like to install dependencies? (y/n): "
 read opt
 if [[ $opt == "y" ]]; then
 	echo "Updating dependicies..."
-	sudo pacman -S python-pyqt4 wine-staging winetricks
+	sudo apt-get install python3-pyqt4 winetricks
 elif [[ $opt == "n" ]]; then
 	echo "Skipping dependency update..."
 else
