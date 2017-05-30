@@ -92,6 +92,46 @@
              <number>5</number>
             </property>
             <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_5">
+              <property name="bottomMargin">
+               <number>0</number>
+              </property>
+              <item>
+               <widget class="QPushButton" name="addPrefixPushButton">
+                <property name="text">
+                 <string>Add</string>
+                </property>
+                <property name="icon">
+                 <iconset theme="document-new"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="editPrefixPushButton">
+                <property name="text">
+                 <string>Edit</string>
+                </property>
+                <property name="icon">
+                 <iconset theme="document-properties"/>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="removePrefixToolButton">
+                <property name="toolTip">
+                 <string>Remove</string>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+                <property name="icon">
+                 <iconset theme="edit-delete"/>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="QListWidget" name="prefixListWidget">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
@@ -112,30 +152,6 @@
                <enum>Qt::MoveAction</enum>
               </property>
              </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout">
-              <property name="topMargin">
-               <number>5</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <item>
-               <widget class="QPushButton" name="addPrefixPushButton">
-                <property name="text">
-                 <string>Add</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="removePrefixPushButton">
-                <property name="text">
-                 <string>Remove</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
             </item>
            </layout>
           </item>
@@ -342,7 +358,9 @@
                      <string>...</string>
                     </property>
                     <property name="icon">
-                     <iconset theme="utilities-terminal"/>
+                     <iconset theme="utilities-terminal">
+                      <normaloff/>
+                     </iconset>
                     </property>
                     <property name="iconSize">
                      <size>
@@ -394,7 +412,9 @@
                    <string>Run program with this prefix</string>
                   </property>
                   <property name="icon">
-                   <iconset theme="wine"/>
+                   <iconset theme="wine">
+                    <normaloff/>
+                   </iconset>
                   </property>
                  </widget>
                 </item>

@@ -13,6 +13,7 @@ from lib.shortcut import ShortcutManager
 from lib.ui.apd   import AddPrefixDialog
 from lib.ui.rpd   import RemovePrefixDialog
 from lib.ui.asd   import AddShortcutDialog
+from lib.ui.epd   import EditPrefixDialog
 
 # Setup
 # Config
@@ -52,20 +53,20 @@ class Yawpm(QMainWindow):
         ### connect buttons and others
         # When prefixListWidget changes selected item
         self.ui.prefixListWidget.itemSelectionChanged.connect(self.updatePrefixInfo)
-        # When runInPushButton is clicked
+        # When the user wants to interact with the current wine prefix
         self.ui.runInPushButton.clicked.connect(self.doRunInCurrentPrefix)
         self.ui.cfgToolButton.clicked.connect(self.wine.wineCfg)
         self.ui.gameToolButton.clicked.connect(self.wine.wineJoyStick)
         self.ui.installedToolButton.clicked.connect(self.wine.wineAppWiz)
         self.ui.driveToolButton.clicked.connect(self.wine.openWineDrive)
         self.ui.winetricksToolButton.clicked.connect(self.wine.winetricks)
+        # When the user wants to make changes to the prefix list
+        self.ui.editPrefixPushButton.clicked.connect(self.doEditPrefix)
         self.ui.addPrefixPushButton.clicked.connect(self.doAddPrefix)
-        self.ui.removePrefixPushButton.clicked.connect(self.doRemovePrefix)
-        # when a shortcut is double-clicked in the shortcutListView
+        self.ui.removePrefixToolButton.clicked.connect(self.doRemovePrefix)
+        # when the user wants to make changes to the shortcut list
         self.ui.shortcutListWidget.itemDoubleClicked.connect(self.doLaunchShortcut)
-        # when the add shortcut is clicked
         self.ui.addShortcutPushButton.clicked.connect(self.doAddShortcut)
-        # when the delete shortcut button is clicked
         self.ui.delShortcutPushButton.clicked.connect(self.doDelShortcut)
         # when the Kill all button is pressed
         self.ui.wkaPushButton.clicked.connect(self.doKillAllWineProcesses)
@@ -106,6 +107,9 @@ class Yawpm(QMainWindow):
     def doAddPrefix(self):
         dialog = AddPrefixDialog.getDialog(self)
 
+    def doEditPrefix(self):
+        dialog = EditPrefixDialog.getDialog(self)
+
     def doRunInCurrentPrefix(self):
         # pick exe file to run, start in the prefix drive_c, and only show executable files.
         exe = QFileDialog.getOpenFileName(self, 
@@ -142,9 +146,9 @@ class Yawpm(QMainWindow):
         self.ui.prefixDirectoryLabel.setText(dire)
         self.ui.prefixArchitectureLabel.setText(arch)
         if exec_ == "wine":
-            self.ui.prefixExecutableLabel.setText("System Default")
+            self.ui.prefixExecutableLabel.setText("{ver}: System Default".format(ver=self.wine.WINEVER))
         else:
-            self.ui.prefixExecutableLabel.setText(exec_)
+            self.ui.prefixExecutableLabel.setText("{ver}: {exe}".format(ver=self.wine.WINEVER, exe=exec_))
 
     def populatePrefixList(self):
         self.ui.prefixListWidget.clear()

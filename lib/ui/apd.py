@@ -50,6 +50,9 @@ class AddPrefixDialog(QDialog):
 
         arch = self.ui.archComboBox.currentText()
 
+        self.acceptValues(nick, pref, arch, wine)
+
+    def acceptValues(self, nick, pref, arch, wine):
         ## Target the prefix and attempt wineboot
         # this will generate a new prefix of the desired arch, or
         # it will warn user that an existing prefix would be added with 
@@ -77,7 +80,7 @@ class AddPrefixDialog(QDialog):
     def doWineBoot(self, target, arch, wine):
         # if a folder does not exist, create prefix
         # if a folder exists but is empty, create prefix
-        # if the folder exists but is not empty do not create wine prefix
+        # if the folder exists but is not empty and is not a wine prefix do not create wine prefix
         if os.path.isdir(target):
             try:
                 os.rmdir(target)

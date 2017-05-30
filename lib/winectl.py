@@ -1,5 +1,5 @@
 import os
-from subprocess import Popen, run, CalledProcessError
+from subprocess import Popen, run, PIPE, CalledProcessError
 
 #### Wine controls should initiate an invisable dialog, to lock down the parent window while the control is running ####
 
@@ -9,11 +9,13 @@ class WineControl():
         self.WINEARCH   = arch
         self.WINEEXEC   = wine
         self.WINEDEBUG  = debug
+        self.WINEVER    = self.getWineVersion(self.WINEEXEC)
 
     def setTargetPrefix(self, prefix, wine, arch="win64"):
         self.WINEPREFIX = prefix
         self.WINEARCH   = arch
         self.WINEEXEC   = wine
+        self.WINEVER    = self.getWineVersion(wine)
 
     def setDebugLevelSimple(self, level=0):
         levels = [
@@ -25,6 +27,12 @@ class WineControl():
                 ]
 
         self.WINEDEBUG = levels[level]
+
+    def getWineVersion(self, wexec):
+        proc = Popen([wexec, '--version'], stdout=PIPE)
+        proc.wait()
+        output = proc.communicate()[0].decode("utf-8").strip("\n")
+        return output
 
     def openWineDrive(self):
         proc = Popen(["xdg-open", "{}/drive_c".format(self.WINEPREFIX)])
@@ -55,7 +63,7 @@ class WineControl():
                     "WINEPREFIX={}".format(self.WINEPREFIX), 
                     "WINEARCH={}".format(self.WINEARCH), 
                     self.WINEEXEC,
-                    "wineboot"])
+                    "wineboot", "--update"])
         proc.wait()
 
         # return CompletedProcess object

@@ -18,12 +18,20 @@ class PrefixManager():
     def getExec(self):
         return self.prefixes[self.currentIndex][3].strip()
 
+    def getPrefix(self):
+        return self.prefixes[self.currentIndex]
+
     def addPrefix(self, item):
-        # [nick, dir, arch]
+        # [nick, dir, arch, exe]
         for prefix in self.prefixes:
             if (item[0] == prefix[0]) or (item[1] == prefix[1]):
                 raise ValueError("Duplicate entries are not allowed!: {0} matches {1}".format(item, prefix))
         self.prefixes.append(item)
+
+    def editPrefix(self, item):
+        # edits a currently existing entry by replacing it entirely
+        # by default this edits the currently selected prefix
+        self.prefixes[self.currentIndex] = item
 
     def savePrefixList(self):
         with open(self.file, "w", newline='') as csvfile:

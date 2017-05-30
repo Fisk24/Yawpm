@@ -1,5 +1,5 @@
 import os, re, shutil
-#from subprocess import run, Popen, PIPE
+from subprocess import run, Popen, CalledProcessError
 
 class ShortcutManager():
     def __init__(self, parent, user):
@@ -54,7 +54,10 @@ class ShortcutManager():
     def launchShortcut(self, index):
         print(index)
         # env WINEPREFIX="/home/fisk/Wine Prefixes/League_of_Legends/" wine "/home/fisk/Wine Prefixes/League_of_Legends/drive_c/Riot Games/League of Legends/lol.launcher.exe"
-        os.system(self.shortcuts[index]["Exec"])
+        #os.system(self.shortcuts[index]["Exec"])
+        # Its difficult to parse a string into a list of arguments. (Directories could contain spaces and would be split into diffrent list entries)
+        # Insted try to pass the whole Exec line of the shortcut as an argument to bash
+        Popen(self.shortcuts[index]["Exec"], shell=True)
 
     def scanShortcuts(self):
         # parse the desktop files located in the given directory, into a list of dictionaries
