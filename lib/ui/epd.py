@@ -1,8 +1,9 @@
 import os
 
-from PyQt4       import uic
-from PyQt4.QtGui import *
-from lib.ui.apd  import AddPrefixDialog
+from PyQt5           import uic
+from PyQt5.QtGui     import *
+from PyQt5.QtWidgets import *
+from lib.ui.apd      import AddPrefixDialog
 
 class EditPrefixDialog(AddPrefixDialog):
     def __init__(self, parent):

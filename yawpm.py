@@ -2,9 +2,10 @@
 
 import sys, os, re
 
-from PyQt4        import uic
-from PyQt4.QtGui  import *
-from PyQt4.QtCore import *
+from PyQt5           import uic
+from PyQt5.QtGui     import *
+from PyQt5.QtCore    import *
+from PyQt5.QtWidgets import *
 
 from lib          import setup
 from lib.winectl  import WineControl
@@ -112,10 +113,12 @@ class Yawpm(QMainWindow):
 
     def doRunInCurrentPrefix(self):
         # pick exe file to run, start in the prefix drive_c, and only show executable files.
-        exe = QFileDialog.getOpenFileName(self, 
-                                        "Select program to run.", 
-                                        self.manager.getDir()+"/drive_c", 
-                                        "Executable files (*.exe *.msi *.cpl *.bat *.cmd)")
+        selected = QFileDialog.getOpenFileName(self, 
+                                        caption="Select program to run.", 
+                                        directory=self.manager.getDir()+"/drive_c", 
+                                        filter="Executable files (*.exe *.msi *.cpl *.bat *.cmd)",
+                                        options=QFileDialog.ReadOnly)
+        exe = selected[0]
         if exe != "":
             if ".msi" in exe:
                 self.wine.runInTarget([exe], msi=True)
@@ -132,7 +135,8 @@ class Yawpm(QMainWindow):
 
     def updatePrefixInfo(self):
         # change currentIndex in the manager
-        self.manager.currentIndex = self.ui.prefixListWidget.currentRow()
+        #self.manager.currentIndex = self.ui.prefixListWidget.currentRow()
+        self.manager.currentIndex = 0
 
         # new prefix values
         dire  = self.manager.getDir()

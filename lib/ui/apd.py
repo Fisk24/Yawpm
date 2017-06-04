@@ -1,7 +1,8 @@
 import os
 
-from PyQt4       import uic
-from PyQt4.QtGui import *
+from PyQt5           import uic
+from PyQt5.QtGui     import *
+from PyQt5.QtWidgets import *
 
 class AddPrefixDialog(QDialog):
     def __init__(self, parent=None):
@@ -123,8 +124,8 @@ class AddPrefixDialog(QDialog):
         # classified as a wine prefix. This is because wine would create all of its prefix files in the 
         # users home folder instead of some subdirectory therein.
         folder = QFileDialog.getExistingDirectory(self, 
-                "Select wine prefix location.", 
-                options = QFileDialog.ShowDirsOnly | QFileDialog.ReadOnly)
+                    caption = "Select wine prefix location.",
+                    options = QFileDialog.ShowDirsOnly)
 
         if len(folder) >= 1:
             self.ui.selectPrefixPushButton.setText("Prefix location: "+folder)
@@ -146,8 +147,10 @@ class AddPrefixDialog(QDialog):
     def selectWineLocation(self):
         # Inform add prefix dialog as to the location of the wine executable that should be envoked
         # when a program is launched from this prefix
-        executable = QFileDialog.getOpenFileName(self,
-                "Select wine executable location.")
+        selected = QFileDialog.getOpenFileName(self,
+                    "Select wine executable location.")
+
+        executable = selected[0]
 
         if len(executable) > 1:
             self.ui.newWineLineEdit.setText(executable)
