@@ -59,7 +59,8 @@ class AddShortcutDialog(QDialog):
             self.ui.browseIconToolButton.setIcon(QIcon().fromTheme(icon))
 
     def findIcon(self):
-        icon = QFileDialog.getOpenFileName(self, "Open Icon", "/home", "Images (*.png *.ico *.svg)")
+        selected = QFileDialog.getOpenFileName(self, "Open Icon", "/home", "Images (*.png *.ico *.svg)")
+        icon = selected[0]
         if icon != "":
             self.ui.iconLineEdit.setText(icon)
             self.ui.browseIconToolButton.setIcon(QIcon(icon))
@@ -72,7 +73,8 @@ class AddShortcutDialog(QDialog):
             self.start = start
 
     def findExecutable(self):
-        exec_ = QFileDialog.getOpenFileName(self, "Open Executable", "/home", "Executables (*.exe)")
+        selected = QFileDialog.getOpenFileName(self, "Open Executable", "/home", "Executables (*.exe)")
+        exec_ = selected[0]
         if exec_ != "":
             self.ui.executablePushButton.setText(exec_)
             self.exe = exec_

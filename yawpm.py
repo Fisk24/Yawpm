@@ -94,9 +94,9 @@ class Yawpm(QMainWindow):
         dialog = AddShortcutDialog.getDialog(self)           
 
     def doDelShortcut(self):
-        question = QMessageBox.question(self, "Delete shortcut?", "This action will delete this shortcut from your system", "Ok", "No Don't!")
+        question = QMessageBox.question(self, "Delete shortcut?", "This action will delete this shortcut from your system", buttons = QMessageBox.No | QMessageBox.Yes)
         # QMessagebox returns 0 for yes so the conditional needs to be inverted
-        if not question:
+        if question == QMessageBox.Yes:
             index = self.ui.shortcutListWidget.currentRow()
             self.shortcut.delShortcut(index)
             self.shortcut.scanShortcuts()
@@ -135,8 +135,7 @@ class Yawpm(QMainWindow):
 
     def updatePrefixInfo(self):
         # change currentIndex in the manager
-        #self.manager.currentIndex = self.ui.prefixListWidget.currentRow()
-        self.manager.currentIndex = 0
+        self.manager.currentIndex = self.ui.prefixListWidget.currentRow()
 
         # new prefix values
         dire  = self.manager.getDir()
