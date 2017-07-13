@@ -9,7 +9,7 @@ echo "Would you like to install dependencies? (y/n): "
 read opt
 if [[ $opt == "y" ]]; then
 	echo "Updating dependicies..."
-	sudo pacman -S python-pyqt4 wine-staging winetricks
+	sudo pacman -S python-pyqt5 wine-staging winetricks
 elif [[ $opt == "n" ]]; then
 	echo "Skipping dependency update..."
 else

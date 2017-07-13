@@ -56,7 +56,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Starts in:</string>
+      <string>Cmd Flags:</string>
      </property>
     </widget>
    </item>
@@ -71,13 +71,6 @@
     <widget class="QLabel" name="label_4">
      <property name="text">
       <string>Categories:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="2" colspan="2">
-    <widget class="QPushButton" name="cdPushButton">
-     <property name="text">
-      <string>Click to change</string>
      </property>
     </widget>
    </item>
@@ -150,6 +143,9 @@
       </widget>
      </item>
     </layout>
+   </item>
+   <item row="6" column="2" colspan="2">
+    <widget class="QLineEdit" name="flagsLineEdit"/>
    </item>
   </layout>
  </widget>

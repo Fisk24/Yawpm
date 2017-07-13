@@ -21,16 +21,18 @@ class AddShortcutDialog(QDialog):
 
         self.start  = "./"
         self.prefix = 0
+        self.flags  = ""
         self.data   = {}
 
         self.didExec = 0
 
         ### CONNECTIONS ###
         self.ui.acceptPushButton.clicked.connect(self.validate)
-        self.ui.cdPushButton.clicked.connect(self.findStartPoint)
+        #self.ui.cdPushButton.clicked.connect(self.findStartPoint)
         self.ui.executablePushButton.clicked.connect(self.findExecutable)
         self.ui.browseIconToolButton.clicked.connect(self.findIcon)
         self.ui.iconLineEdit.textChanged.connect(self.updateIcon)
+        self.ui.flagsLineEdit.textChanged.connect(self.updateFlags)
         self.ui.prefixComboBox.currentIndexChanged.connect(self.updatePrefixIndex)
 
         self.populate()
@@ -57,6 +59,9 @@ class AddShortcutDialog(QDialog):
             self.ui.browseIconToolButton.setIcon(QIcon(icon))
         else:
             self.ui.browseIconToolButton.setIcon(QIcon().fromTheme(icon))
+            
+    def updateFlags(self):
+    	self.flags = self.ui.flagsLineEdit.text().strip()
 
     def findIcon(self):
         selected = QFileDialog.getOpenFileName(self, "Open Icon", "/home", "Images (*.png *.ico *.svg)")
@@ -92,9 +97,10 @@ class AddShortcutDialog(QDialog):
         self.data["Categories"] = self.cate
         self.data["start"]      = self.start
         self.data["prefix"]     = self.prefix
+        self.data["flags"]      = self.flags
         #self.data[""] = self.
         #self.data[""] = self.
-
+        
     def validateName(self, name):
         # Shortcut names must consist of atleast one non-whiespace character
         if len(name.strip()) > 0:

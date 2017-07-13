@@ -18,21 +18,28 @@ class ShortcutManager():
         filename = self.legalize(info["Name"])+".desktop"
 
         print("File name is {}".format(filename))
-
+        
+        # breifly before we overwrite the Exec line with the final information
+        # we utilize the supplied executable file location to derive the
+        # starting directory
+        starts_in = os.path.dirname(info["Exec"])
         info["Exec"] = self.assembleExecLine(info)
 
         self.initializeDesktopFile(self.localDir+filename)
-        self.writeDesktopFile(info, self.localDir+filename)
+        self.writeDesktopFile(info, starts_in, self.localDir+filename)
         self.distributeDesktopFiles(filename)
 
     def distributeDesktopFiles(self, filename):
         shutil.copyfile(self.localDir+filename, self.systemDir+filename)
 
-    def writeDesktopFile(self, info, filename):
-        for key in info:
-            if (key != "start") and (key != "prefix"):
-                with open(filename, "a") as shortcut:
-                    shortcut.write("{k}={v}\n".format(k=key, v=info[key]))
+    def writeDesktopFile(self, info, start, filename):
+    	with open(filename, "a") as shortcut:
+    		for key in info:
+    			# any data in the start key goes unused here
+    			if (key != "start") and (key != "prefix") and (key != "flags"):
+    				shortcut.write("{k}={v}\n".format(k=key, v=info[key]))
+    			elif key == "start":
+    				shortcut.write("Path={v}".format(v=start))
 
     def initializeDesktopFile(self, filename):
         with open(filename, "w") as desktop:
@@ -41,7 +48,7 @@ class ShortcutManager():
     def assembleExecLine(self, info):
         prefixes  = self.parent.manager.prefixes # list of all wine prefixes
         target    = prefixes[info["prefix"]] # Target wine prefix
-        exec_line = "env WINEDEBUG=fixme-all WINEPREFIX=\"{pfx}\" {wine} \"{exe}\"".format(pfx=target[1], exe=info["Exec"], wine=target[3])
+        exec_line = "env WINEDEBUG=fixme-all WINEPREFIX=\"{pfx}\" {wine} \"{exe}\" {flags}".format(pfx=target[1], exe=info["Exec"], wine=target[3], flags=info["flags"])
         print(exec_line)
         return exec_line
 
@@ -57,6 +64,7 @@ class ShortcutManager():
         #os.system(self.shortcuts[index]["Exec"])
         # Its difficult to parse a string into a list of arguments. (Directories could contain spaces and would be split into diffrent list entries)
         # Insted try to pass the whole Exec line of the shortcut as an argument to bash
+        os.chdir(self.shortcuts[index]["Path"])
         Popen(self.shortcuts[index]["Exec"], shell=True)
 
     def scanShortcuts(self):

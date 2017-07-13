@@ -31,7 +31,7 @@ class RemovePrefixDialog(QDialog):
         # remove the prefix that matches the one currently selected in prefixListWidget 
         self.parent.manager.prefixes.pop(self.index)
         self.parent.manager.savePrefixList()
-        self.parent.populate()
+        self.parent.populatePrefixList()
         self.accept()
         
     @staticmethod

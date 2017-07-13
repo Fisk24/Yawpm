@@ -8,7 +8,7 @@ from PyQt5.QtCore    import *
 from PyQt5.QtWidgets import *
 
 from lib          import setup
-from lib.winectl  import WineControl
+from lib.winectl  import WineControl, WineError
 from lib.prefix   import PrefixManager
 from lib.shortcut import ShortcutManager
 from lib.ui.apd   import AddPrefixDialog
@@ -135,12 +135,22 @@ class Yawpm(QMainWindow):
 
     def updatePrefixInfo(self):
         # change currentIndex in the manager
-        self.manager.currentIndex = self.ui.prefixListWidget.currentRow()
+        currentRow = self.ui.prefixListWidget.currentRow()
+        self.manager.currentIndex = currentRow
 
         # new prefix values
-        dire  = self.manager.getDir()
-        arch  = self.manager.getArch()
-        exec_ = self.manager.getExec()
+        try:
+            dire  = self.manager.getDir()
+            arch  = self.manager.getArch()
+            exec_ = self.manager.getExec()
+        except IndexError:
+            # If the requested prefix index would be 
+            # outside the bounds of the prefix list
+            # default to the first one instead and 
+            # try again
+            self.ui.prefixListWidget.setCurrentRow(0)
+            return
+
 
         # change the targeted wine prefix
         self.wine.setTargetPrefix(dire, exec_, arch)
@@ -152,6 +162,22 @@ class Yawpm(QMainWindow):
             self.ui.prefixExecutableLabel.setText("{ver}: System Default".format(ver=self.wine.WINEVER))
         else:
             self.ui.prefixExecutableLabel.setText("{ver}: {exe}".format(ver=self.wine.WINEVER, exe=exec_))
+        
+        # If the wine executable dose not exist due to it being moved of deleted
+        # Disable any controles that would make use of it
+        try:
+            self.wine.getWineVersion(exec_)
+            self.ui.configureTabWidget.setEnabled(True)
+        except WineError:
+            self.ui.configureTabWidget.setEnabled(False)
+
+        # If the currently selected prefix is the default prefix
+        # Disable the remove button, as users should not be able
+        # to remove it
+        if currentRow == 0:
+            self.ui.removePrefixToolButton.setEnabled(False)
+        else:
+            self.ui.removePrefixToolButton.setEnabled(True)
 
     def populatePrefixList(self):
         self.ui.prefixListWidget.clear()
