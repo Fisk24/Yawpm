@@ -126,6 +126,7 @@ class Yawpm(QMainWindow):
                 self.wine.runInTarget([exe])
 
     def doKillAllWineProcesses(self):
+    	# WINEPREFIX can be applied to "wineserver -k"
         self.wine.wineKillAll()
 
     def doChangeDebuggingLevelSimple(self):

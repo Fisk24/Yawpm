@@ -23,17 +23,21 @@ class RemovePrefixDialog(QDialog):
 
     def populatePrefixInfoLabel(self):
         nick = self.parent.manager.prefixes[self.index][0]
-        path = self.parent.manager.prefixes[self.index][1] 
+        path = self.parent.manager.prefixes[self.index][1]
         arch = self.parent.manager.prefixes[self.index][2]
         self.ui.prefixInfoLabel.setText("[{nick}:{arch}] @ {path}".format(nick=nick, path=path, arch=arch))
 
+    def doDeleteFiles(self):
+        path = self.parent.manager.prefixes[self.index][1]
+        shutil.rmtree(path)
+
     def doRemovePrefix(self):
-        # remove the prefix that matches the one currently selected in prefixListWidget 
+        # remove the prefix that matches the one currently selected in prefixListWidget
         self.parent.manager.prefixes.pop(self.index)
         self.parent.manager.savePrefixList()
         self.parent.populatePrefixList()
         self.accept()
-        
+
     @staticmethod
     def getDialog(parent=None):
         dialog = RemovePrefixDialog(parent)
