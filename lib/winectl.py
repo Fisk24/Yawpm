@@ -20,7 +20,7 @@ class WineControl():
         try:
             self.WINEVER = self.getWineVersion(wine)
         except WineError as e:
-            self.WINEVER = str(e) 
+            self.WINEVER = str(e)
 
     def setDebugLevelSimple(self, level=0):
         levels = [
@@ -51,14 +51,14 @@ class WineControl():
             previous = os.getcwd()
             os.chdir(os.path.dirname(exe[0]))
             if msi:
-                proc = Popen(["env", 
-                        "WINEPREFIX={}".format(self.WINEPREFIX), 
+                proc = Popen(["env",
+                        "WINEPREFIX={}".format(self.WINEPREFIX),
                         "WINEARCH={}".format(self.WINEARCH),
                         "WINEDEBUG={}".format(self.WINEDEBUG),
                         self.WINEEXEC, "msiexec", "/i"]+exe)
             else:
-                proc = Popen(["env", 
-                        "WINEPREFIX={}".format(self.WINEPREFIX), 
+                proc = Popen(["env",
+                        "WINEPREFIX={}".format(self.WINEPREFIX),
                         "WINEARCH={}".format(self.WINEARCH),
                         "WINEDEBUG={}".format(self.WINEDEBUG),
                         self.WINEEXEC]+exe)
@@ -71,9 +71,9 @@ class WineControl():
 
     def wineBoot(self):
         try:
-            proc = Popen(["env", 
-                        "WINEPREFIX={}".format(self.WINEPREFIX), 
-                        "WINEARCH={}".format(self.WINEARCH), 
+            proc = Popen(["env",
+                        "WINEPREFIX={}".format(self.WINEPREFIX),
+                        "WINEARCH={}".format(self.WINEARCH),
                         self.WINEEXEC,
                         "wineboot", "--update"])
             proc.wait()
@@ -84,9 +84,9 @@ class WineControl():
         return proc
 
     def winetricks(self):
-        proc = Popen(["env", 
-                    "WINEPREFIX={}".format(self.WINEPREFIX), 
-                    "WINEARCH={}".format(self.WINEARCH), 
+        proc = Popen(["env",
+                    "WINEPREFIX={}".format(self.WINEPREFIX),
+                    "WINEARCH={}".format(self.WINEARCH),
                     "winetricks"])
         proc.wait()
 
@@ -100,27 +100,26 @@ class WineControl():
         proc.wait()
 
     def wineJoyStick(self):
-        proc = Popen(["env", 
-                    "WINEPREFIX={}".format(self.WINEPREFIX), 
-                    "WINEARCH={}".format(self.WINEARCH), 
-                    self.WINEEXEC, 
+        proc = Popen(["env",
+                    "WINEPREFIX={}".format(self.WINEPREFIX),
+                    "WINEARCH={}".format(self.WINEARCH),
+                    self.WINEEXEC,
                     "control", "joy.cpl"])
         proc.wait()
 
     def wineAppWiz(self):
-        proc = Popen(["env", 
-                    "WINEPREFIX={}".format(self.WINEPREFIX), 
-                    "WINEARCH={}".format(self.WINEARCH), 
+        proc = Popen(["env",
+                    "WINEPREFIX={}".format(self.WINEPREFIX),
+                    "WINEARCH={}".format(self.WINEARCH),
                     self.WINEEXEC, "control", "appwiz.cpl"])
         proc.wait()
 
     def wineInet(self):
-        proc = Popen(["env", 
-                    "WINEPREFIX={}".format(self.WINEPREFIX), 
+        proc = Popen(["env",
+                    "WINEPREFIX={}".format(self.WINEPREFIX),
                     "WINEARCH={}".format(self.WINEARCH), 
                     self.WINEEXEC, "control", "inetcpl.cpl"])
         proc.wait()
 
     def wineKillAll(self):
-        proc = Popen(["bash", "-c", "./lib/wka"])
-
+        proc = Popen(["bash", "-c", "lib/wka"])
