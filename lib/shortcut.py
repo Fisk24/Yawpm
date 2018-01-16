@@ -18,7 +18,7 @@ class ShortcutManager():
         filename = self.legalize(info["Name"])+".desktop"
 
         print("File name is {}".format(filename))
-        
+
         # breifly before we overwrite the Exec line with the final information
         # we utilize the supplied executable file location to derive the
         # starting directory
@@ -35,8 +35,8 @@ class ShortcutManager():
     def writeDesktopFile(self, info, start, filename):
     	with open(filename, "a") as shortcut:
     		for key in info:
-    			# any data in the start key goes unused here
-    			if (key != "start") and (key != "prefix") and (key != "flags"):
+    			# excluding metadata tags, write all shortcut tags into the file
+    			if (key != "start") and (key != "prefix") and (key != "flags") and (key != "environment"):
     				shortcut.write("{k}={v}\n".format(k=key, v=info[key]))
     			elif key == "start":
     				shortcut.write("Path={v}".format(v=start))
@@ -48,7 +48,12 @@ class ShortcutManager():
     def assembleExecLine(self, info):
         prefixes  = self.parent.manager.prefixes # list of all wine prefixes
         target    = prefixes[info["prefix"]] # Target wine prefix
-        exec_line = "env WINEDEBUG=fixme-all WINEPREFIX=\"{pfx}\" {wine} \"{exe}\" {flags}".format(pfx=target[1], exe=info["Exec"], wine=target[3], flags=info["flags"])
+        exec_line = "env "
+        # append any environment extra variables to the exec line
+        for i in info["environment"]:
+            exec_line += i+" "
+        # then append the standard command string, keeping in mind that the "env" is already a part of the string
+        exec_line += "WINEDEBUG=fixme-all WINEPREFIX=\"{pfx}\" {wine} \"{exe}\" {flags}".format(pfx=target[1], exe=info["Exec"], wine=target[3], flags=info["flags"])
         print(exec_line)
         return exec_line
 
@@ -83,7 +88,7 @@ class ShortcutManager():
         short = directory+filename
         scinfo = {}
         scinfo["filename"] = filename
-        with open(short, "r") as sc: 
+        with open(short, "r") as sc:
             for line in sc.readlines():
                 if "[Desktop Entry]" not in line:
                     x = line.split("=")
@@ -100,5 +105,3 @@ class ShortcutManager():
         for i in ILLEGAL:
             x = x.replace(i[0], i[1])
         return x
-
-

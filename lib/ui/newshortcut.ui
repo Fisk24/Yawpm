@@ -6,75 +6,189 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>422</width>
-    <height>304</height>
+    <width>544</width>
+    <height>378</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Shortcut</string>
+   <string>New Shortcut</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="8" column="2" colspan="2">
-    <widget class="QLineEdit" name="commentLineEdit">
-     <property name="text">
-      <string>Shortcut Created by Yawpm (Yet Another Wine Prefix Manager)</string>
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
      </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="5" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Comment:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Cmd Flags:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Icon:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="iconLabel">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="scaledContents">
+            <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Prefix:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Executable:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLineEdit" name="iconLineEdit"/>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Categories:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QToolButton" name="browseIconToolButton">
+         <property name="text">
+          <string>...</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0" colspan="3">
+        <widget class="QLineEdit" name="nickLineEdit">
+         <property name="placeholderText">
+          <string>Nickname</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QPushButton" name="executablePushButton">
+         <property name="text">
+          <string>Click to change</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QLineEdit" name="flagsLineEdit"/>
+       </item>
+       <item row="4" column="1" colspan="2">
+        <widget class="QLineEdit" name="categoryLineEdit">
+         <property name="toolTip">
+          <string>The location in the applications menu that you want the shortcut to appear in. This should be a list sepperated by &quot;;&quot; and be sure to end the list with this character as well</string>
+         </property>
+         <property name="text">
+          <string>Games;Wine;</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1" colspan="2">
+        <widget class="QLineEdit" name="commentLineEdit">
+         <property name="text">
+          <string>Shortcut Created by Yawpm (Yet Another Wine Prefix Manager)</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1" colspan="2">
+        <widget class="QComboBox" name="prefixComboBox"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Environment</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_7">
+         <property name="text">
+          <string>New Variable</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QToolButton" name="newVarToolButton">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset theme="list-add">
+           <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLineEdit" name="newVarLineEdit"/>
+       </item>
+       <item row="0" column="3">
+        <widget class="QToolButton" name="removeVarToolButton">
+         <property name="text">
+          <string>...</string>
+         </property>
+         <property name="icon">
+          <iconset theme="list-remove">
+           <normaloff>../../../../.designer/backup</normaloff>../../../../.designer/backup</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="4">
+        <widget class="QListWidget" name="envListWidget"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
-   <item row="7" column="2" colspan="2">
-    <widget class="QLineEdit" name="categoryLineEdit">
-     <property name="toolTip">
-      <string>The location in the applications menu that you want the shortcut to appear in. This should be a list sepperated by &quot;;&quot; and be sure to end the list with this character as well</string>
-     </property>
-     <property name="text">
-      <string>Games;Wine;</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="2" colspan="2">
-    <widget class="QComboBox" name="prefixComboBox"/>
-   </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="label">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Executable:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="label_2">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Cmd Flags:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2" colspan="2">
-    <widget class="QPushButton" name="executablePushButton">
-     <property name="text">
-      <string>Click to change</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="label_4">
-     <property name="text">
-      <string>Categories:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="10" column="0" colspan="4">
+   <item row="10" column="0">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QPushButton" name="acceptPushButton">
@@ -91,61 +205,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="1" column="2">
-    <widget class="QLineEdit" name="iconLineEdit"/>
-   </item>
-   <item row="1" column="3">
-    <widget class="QToolButton" name="browseIconToolButton">
-     <property name="text">
-      <string>...</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="4">
-    <widget class="QLineEdit" name="nickLineEdit">
-     <property name="placeholderText">
-      <string>Nickname</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="label_5">
-     <property name="text">
-      <string>Prefix:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="label_6">
-     <property name="text">
-      <string>Comment:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Icon:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QLabel" name="iconLabel">
-       <property name="text">
-        <string/>
-       </property>
-       <property name="scaledContents">
-        <bool>false</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item row="6" column="2" colspan="2">
-    <widget class="QLineEdit" name="flagsLineEdit"/>
    </item>
   </layout>
  </widget>

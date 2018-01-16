@@ -9,7 +9,7 @@ class AddShortcutDialog(QDialog):
 
         self.parent = parent
         self.ui = uic.loadUi("lib/ui/newshortcut.ui", self)
-        
+
         ### VARS ###
         self.name = ""
         self.comm = ""
@@ -23,6 +23,7 @@ class AddShortcutDialog(QDialog):
         self.prefix = 0
         self.flags  = ""
         self.data   = {}
+        self.environmentVars = []
 
         self.didExec = 0
 
@@ -34,6 +35,7 @@ class AddShortcutDialog(QDialog):
         self.ui.iconLineEdit.textChanged.connect(self.updateIcon)
         self.ui.flagsLineEdit.textChanged.connect(self.updateFlags)
         self.ui.prefixComboBox.currentIndexChanged.connect(self.updatePrefixIndex)
+        self.ui.newVarToolButton.clicked.connect(self.addEnvironmentVariable)
 
         self.populate()
 
@@ -59,9 +61,23 @@ class AddShortcutDialog(QDialog):
             self.ui.browseIconToolButton.setIcon(QIcon(icon))
         else:
             self.ui.browseIconToolButton.setIcon(QIcon().fromTheme(icon))
-            
+
     def updateFlags(self):
     	self.flags = self.ui.flagsLineEdit.text().strip()
+
+    def addEnvironmentVariable(self):
+        enviro = self.newVarLineEdit.text()
+        components = enviro.split("=")
+        varName = components[0].upper().strip()
+        varValue = components[1].strip()
+        varString = varName+"="+varValue
+        if (varName == "LD_PRELOAD"):
+            if not os.path.isfile(varValue):
+                QMessageBox.critical(self, "File Not Found", components[1] + " is not a file or dosen't exist!")
+                return 1
+        self.ui.newVarLineEdit.setText("")
+        self.ui.envListWidget.addItem(varString)
+        self.environmentVars.append(varString)
 
     def findIcon(self):
         selected = QFileDialog.getOpenFileName(self, "Open Icon", "/home", "Images (*.png *.ico *.svg)")
@@ -98,9 +114,10 @@ class AddShortcutDialog(QDialog):
         self.data["start"]      = self.start
         self.data["prefix"]     = self.prefix
         self.data["flags"]      = self.flags
+        self.data["environment"]= self.environmentVars
         #self.data[""] = self.
         #self.data[""] = self.
-        
+
     def validateName(self, name):
         # Shortcut names must consist of atleast one non-whiespace character
         if len(name.strip()) > 0:
