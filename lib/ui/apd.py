@@ -4,10 +4,12 @@ from PyQt5           import uic
 from PyQt5.QtGui     import *
 from PyQt5.QtWidgets import *
 
+from lib.config import Config
+
 class AddPrefixDialog(QDialog):
     def __init__(self, parent=None):
         super(AddPrefixDialog, self).__init__(parent)
-        
+
         self.parent = parent
         self.ui = uic.loadUi("lib/ui/newprefix.ui", self)
 
@@ -56,9 +58,9 @@ class AddPrefixDialog(QDialog):
     def acceptValues(self, nick, pref, arch, wine):
         ## Target the prefix and attempt wineboot
         # this will generate a new prefix of the desired arch, or
-        # it will warn user that an existing prefix would be added with 
+        # it will warn user that an existing prefix would be added with
         # the incorrect arch
-        
+
         if self.doWineBoot(pref, arch, wine):
             try:
                 self.parent.manager.addPrefix([nick, pref, arch, wine])
@@ -120,12 +122,13 @@ class AddPrefixDialog(QDialog):
         return 1
 
     def selectPrefixLocation(self):
-        # folder should start in the users home folder, but should not allow the users home folder to be 
-        # classified as a wine prefix. This is because wine would create all of its prefix files in the 
+        # folder should start in the users home folder, but should not allow the users home folder to be
+        # classified as a wine prefix. This is because wine would create all of its prefix files in the
         # users home folder instead of some subdirectory therein.
-        folder = QFileDialog.getExistingDirectory(self, 
-                    caption = "Select wine prefix location.",
-                    options = QFileDialog.ShowDirsOnly)
+        folder = QFileDialog.getExistingDirectory(self,
+                    "Select wine prefix location.",
+                    Config.DATA["PATHS"]["WINEBOTTLES"],
+                    QFileDialog.ShowDirsOnly)
 
         if len(folder) >= 1:
             self.ui.selectPrefixPushButton.setText("Prefix location: "+folder)

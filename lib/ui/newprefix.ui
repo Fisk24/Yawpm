@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>423</width>
-    <height>196</height>
+    <height>148</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,16 +38,6 @@
          <string>win64</string>
         </property>
        </item>
-      </widget>
-     </item>
-     <item row="2" column="0" colspan="4">
-      <widget class="QPushButton" name="selectPrefixPushButton">
-       <property name="toolTip">
-        <string>Click this button to specify the location of the wine prefix that you wish to add. Wine files wil be created inside this exact directory. Becuase of this, an empty folder is prefered.</string>
-       </property>
-       <property name="text">
-        <string>Select Prefix Location</string>
-       </property>
       </widget>
      </item>
      <item row="3" column="0">
@@ -93,6 +83,16 @@
        </property>
        <property name="placeholderText">
         <string>wine</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0" colspan="4">
+      <widget class="QPushButton" name="selectPrefixPushButton">
+       <property name="toolTip">
+        <string>Click this button to specify the location of the wine prefix that you wish to add. Wine files wil be created inside this exact directory. Becuase of this, an empty folder is prefered.</string>
+       </property>
+       <property name="text">
+        <string>Select Prefix Location</string>
        </property>
       </widget>
      </item>

@@ -60,8 +60,14 @@ class ShortcutManager():
     def delShortcut(self, index):
         filename = self.shortcuts[index]["filename"]
         print("Deleted shortcut: {}".format(filename))
-        os.remove(self.systemDir+filename)
-        os.remove(self.localDir+filename)
+        try:
+            os.remove(self.systemDir+filename)
+        except FileNotFoundError as e:
+            print("The system shortcut does not appear to exist in the file system...")
+        try:
+            os.remove(self.localDir+filename)
+        except FileNotFoundError as e:
+            print("The local shortcut does not appear to exist in the file system...")
 
     def launchShortcut(self, index):
         print(index)

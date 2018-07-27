@@ -8,6 +8,7 @@ from PyQt5.QtCore    import *
 from PyQt5.QtWidgets import *
 
 from lib          import setup
+from lib.config   import Config
 from lib.winectl  import WineControl, WineError
 from lib.prefix   import PrefixManager
 from lib.shortcut import ShortcutManager
@@ -28,13 +29,17 @@ class Yawpm(QMainWindow):
         # load ui files
         self.ui = uic.loadUi("lib/ui/main.ui", self)
 
+        # initialize configuration settings
+        Config().doDetectFirstTimeSetup()
+        Config().load()
+
         # initialize prefix programs info list
         # Keys = prefixNickName
         self.prefixInfo = {}
-        
+
         # initialize wine controls
         self.wine = WineControl()
-        
+
         # initialize Prefix list manager
         self.manager  = PrefixManager(_file=setup.PREFIXCSV)
         self.manager.loadPrefixList()
@@ -69,10 +74,23 @@ class Yawpm(QMainWindow):
         self.ui.shortcutListWidget.itemDoubleClicked.connect(self.doLaunchShortcut)
         self.ui.addShortcutPushButton.clicked.connect(self.doAddShortcut)
         self.ui.delShortcutPushButton.clicked.connect(self.doDelShortcut)
+        # when the user wants to make changes to the program settings
+        #self.ui.wineBottlesLineEdit.textChanged.connect(self.updateWineBottles)
         # when the Kill all button is pressed
         self.ui.wkaPushButton.clicked.connect(self.doKillAllWineProcesses)
         # when the basic debugging level is changed
         self.ui.llComboBox.currentIndexChanged.connect(self.doChangeDebuggingLevelSimple)
+
+    def closeEvent(self, event):
+        Config().save()
+        event.accept()
+
+    def updateWineBottles(self):
+        configData    = Config().data
+        newBottlesDir = self.ui.wineBottlesLineEdit.text()
+
+        configData["bottles"] = newBottlesDir
+        Config.apply(configData)
 
     def listWidgetChanged(self):
         # store prefix data from target index
@@ -91,7 +109,7 @@ class Yawpm(QMainWindow):
         self.shortcut.launchShortcut(index)
 
     def doAddShortcut(self):
-        dialog = AddShortcutDialog.getDialog(self)           
+        dialog = AddShortcutDialog.getDialog(self)
 
     def doDelShortcut(self):
         question = QMessageBox.question(self, "Delete shortcut?", "This action will delete this shortcut from your system", buttons = QMessageBox.No | QMessageBox.Yes)
@@ -113,9 +131,9 @@ class Yawpm(QMainWindow):
 
     def doRunInCurrentPrefix(self):
         # pick exe file to run, start in the prefix drive_c, and only show executable files.
-        selected = QFileDialog.getOpenFileName(self, 
-                                        caption="Select program to run.", 
-                                        directory=self.manager.getDir()+"/drive_c", 
+        selected = QFileDialog.getOpenFileName(self,
+                                        caption="Select program to run.",
+                                        directory=self.manager.getDir()+"/drive_c",
                                         filter="Executable files (*.exe *.msi *.cpl *.bat *.cmd)",
                                         options=QFileDialog.ReadOnly)
         exe = selected[0]
@@ -145,9 +163,9 @@ class Yawpm(QMainWindow):
             arch  = self.manager.getArch()
             exec_ = self.manager.getExec()
         except IndexError:
-            # If the requested prefix index would be 
+            # If the requested prefix index would be
             # outside the bounds of the prefix list
-            # default to the first one instead and 
+            # default to the first one instead and
             # try again
             self.ui.prefixListWidget.setCurrentRow(0)
             return
@@ -163,7 +181,7 @@ class Yawpm(QMainWindow):
             self.ui.prefixExecutableLabel.setText("{ver}: System Default".format(ver=self.wine.WINEVER))
         else:
             self.ui.prefixExecutableLabel.setText("{ver}: {exe}".format(ver=self.wine.WINEVER, exe=exec_))
-        
+
         # If the wine executable dose not exist due to it being moved of deleted
         # Disable any controles that would make use of it
         try:
@@ -177,8 +195,10 @@ class Yawpm(QMainWindow):
         # to remove it
         if currentRow == 0:
             self.ui.removePrefixToolButton.setEnabled(False)
+            self.ui.editPrefixPushButton.setEnabled(False)
         else:
             self.ui.removePrefixToolButton.setEnabled(True)
+            self.ui.editPrefixPushButton.setEnabled(True)
 
     def populatePrefixList(self):
         self.ui.prefixListWidget.clear()
