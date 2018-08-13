@@ -1,4 +1,6 @@
 import os, re, shutil
+
+from lib.config import Config
 from subprocess import run, Popen, CalledProcessError
 
 class ShortcutManager():
@@ -6,8 +8,8 @@ class ShortcutManager():
 
         self.parent = parent
 
-        self.systemDir = "/home/{user}/.local/share/applications/".format(user=user)
-        self.localDir = "/home/{user}/.config/Yawpm/shortcuts/".format(user=user)
+        self.systemDir = Config.DATA['PATHS']['SHORTCUTDIR']
+        self.localDir  = Config.DATA['PATHS']['SHORTCUTDIR']
         self.shortcuts = [] # The master list of all scanned shortcuts
 
     def addShortcut(self, info):
