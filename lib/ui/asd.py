@@ -52,7 +52,7 @@ class AddShortcutDialog(QDialog):
         # the index should match the index of the prefix in the list provided py the
         # prefix manager. Therefore this index will refrence the correct information
         # when this data in this dialog is passed to the shortcut manager
-        self.prefix = index
+        self.prefix = self.parent.manager.prefixes[index]
 
     def updateIcon(self):
         #print("Text Changed")
@@ -71,10 +71,7 @@ class AddShortcutDialog(QDialog):
         varName = components[0].upper().strip()
         varValue = components[1].strip()
         varString = varName+"="+varValue
-        if (varName == "LD_PRELOAD"):
-            if not os.path.isfile(varValue):
-                QMessageBox.critical(self, "File Not Found", components[1] + " is not a file or dosen't exist!")
-                return 1
+
         self.ui.newVarLineEdit.setText("")
         self.ui.envListWidget.addItem(varString)
         self.environmentVars.append(varString)

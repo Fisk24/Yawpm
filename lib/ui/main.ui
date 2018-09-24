@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>828</width>
+    <width>894</width>
     <height>611</height>
    </rect>
   </property>
@@ -607,8 +607,24 @@
            <item row="0" column="0">
             <widget class="QGroupBox" name="groupBox_4">
              <property name="title">
-              <string>Prefix Manager</string>
+              <string>Shortcuts</string>
              </property>
+             <layout class="QGridLayout" name="gridLayout_12">
+              <item row="0" column="0">
+               <widget class="QCheckBox" name="checkBox">
+                <property name="text">
+                 <string>Auto delete wine folder from: ~/.local/share/applications  (prevents duplicate shortcuts)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QCheckBox" name="checkBox_2">
+                <property name="text">
+                 <string>CheckBox</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
             </widget>
            </item>
           </layout>

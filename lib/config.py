@@ -4,27 +4,36 @@ import os, json, getpass
 class Config():
 
     USER = getpass.getuser()
-    CONFIGBASE = "/home/{USER}/.config/Yawpm/".format(USER=USER)
+
+    BASE_USER_DIR    = "/home/"+USER+"/"
+    BASE_YAWPM_EXTRA = BASE_USER_DIR+".local/Yawpm/"
+
+    CONFIGBASE = BASE_USER_DIR+".config/Yawpm/"
     CONFIGFILE = CONFIGBASE+"Settings.json"
     PREFIXFILE = CONFIGBASE+"prefixes.csv"
 
     DATA = {
         "PATHS": {
-            "DEFAULTPREFIX" : "/home/{USER}/.wine/".format(USER=USER),
-            "WINEBOTTLES"   : "/home/{USER}/WineBottles/".format(USER=USER),
-            "EXTRAFILES"    : "/home/{USER}/.local/Yawpm/Libraries/".format(USER=USER),
-            "WINEVERSIONS"  : "/home/{USER}/.local/Yawpm/WineVersions/".format(USER=USER),
-            "SHORTCUTDIR"   : "/home/{USER}/.local/applications/Yawpm/".format(USER=USER)
+            "DEFAULTPREFIX" : BASE_USER_DIR+".wine/",
+            "WINEBOTTLES"   : BASE_USER_DIR+"WineBottles/",
+            "EXTRAFILES"    : BASE_YAWPM_EXTRA+"Libraries/",
+            "WINEVERSIONS"  : BASE_YAWPM_EXTRA+"WineVersions/",
+            "SCDATADIR"     : BASE_YAWPM_EXTRA+"SCData/",
+            "SHORTCUTDIR"   : BASE_USER_DIR+".local/share/applications/Yawpm/"
         }
     }
 
-    def doDetectFirstTimeSetup(self):
+    def doDetectFirstTimeSetup(self, force=False):
         self.createReqFiles()
 
-        if not os.path.isfile(Config.CONFIGFILE):
-            self.save()
-        if not os.path.isfile(Config.PREFIXFILE):
-            self.genDefaultPrefixesCsv()
+        if force == True:
+            self.save() # Save current configuration. Because this function is called before load(), The default values are writen out.
+            self.genDefaultPrefixesCsv() # Reinitialize the prefix file, any existing prefixes will be forgotten but not removed from the system.
+        else:
+            if not os.path.isfile(Config.CONFIGFILE):
+                self.save()
+            if not os.path.isfile(Config.PREFIXFILE):
+                self.genDefaultPrefixesCsv()
 
     def genDefaultPrefixesCsv(self):
         with open(Config.PREFIXFILE,"w") as prefix:
@@ -33,6 +42,10 @@ class Config():
     def createReqFiles(self):
         os.makedirs(Config.CONFIGBASE, exist_ok=True)
         os.makedirs(Config.DATA['PATHS']['SHORTCUTDIR'], exist_ok=True)
+        os.makedirs(Config.DATA['PATHS']['SCDATADIR'], exist_ok=True)
+        os.makedirs(Config.DATA['PATHS']['EXTRAFILES'], exist_ok=True)
+        os.makedirs(Config.DATA['PATHS']['WINEVERSIONS'], exist_ok=True)
+        os.makedirs(Config.DATA['PATHS']['WINEBOTTLES'], exist_ok=True)
 
 
     # Class methods receive the class name as their first argument

@@ -1,13 +1,12 @@
 #! /usr/bin/python3
 
-import sys, os, re
+import sys, os, re, argparse
 
 from PyQt5           import uic
 from PyQt5.QtGui     import *
 from PyQt5.QtCore    import *
 from PyQt5.QtWidgets import *
 
-from lib          import setup
 from lib.config   import Config
 from lib.winectl  import WineControl, WineError
 from lib.prefix   import PrefixManager
@@ -24,13 +23,17 @@ from lib.ui.epd   import EditPrefixDialog
 ## prefixes.csv should be created if it does not exist and the prefered location for this file is in $USER/.config/yawpm/prefixes.csv
 
 class Yawpm(QMainWindow):
-    def __init__(self):
+    def __init__(self, args=None):
         super(Yawpm, self).__init__()
         # load ui files
         self.ui = uic.loadUi("lib/ui/main.ui", self)
 
         # initialize configuration settings
-        Config().doDetectFirstTimeSetup()
+        if (args.reconfig == True):
+            Config().doDetectFirstTimeSetup(force=True)
+        else:
+            Config().doDetectFirstTimeSetup()
+
         Config().load()
 
         # initialize prefix programs info list
@@ -41,14 +44,20 @@ class Yawpm(QMainWindow):
         self.wine = WineControl()
 
         # initialize Prefix list manager
-        self.manager  = PrefixManager(_file=setup.PREFIXCSV)
+        self.manager  = PrefixManager(_file=Config.PREFIXFILE)
         self.manager.loadPrefixList()
 
         self.printList(self.manager.prefixes)
 
         # initialize Shortcut Manager
-        self.shortcut = ShortcutManager(self, setup.USER)
+        self.shortcut = ShortcutManager(self, Config.USER)
         self.shortcut.scanShortcuts()
+
+        # Launcher behavior
+        if (args.launcher != None):
+            print("Yawpm has been run in launcher mode. Will start wine program and then exit.")
+            print(args.launcher)
+            sys.exit()
 
         # Show ui
         self.show()
@@ -106,7 +115,7 @@ class Yawpm(QMainWindow):
     def doLaunchShortcut(self):
         # Launches a shortcut from a specified index location
         index = self.ui.shortcutListWidget.currentRow()
-        self.shortcut.launchShortcut(index)
+        self.shortcut.shortcuts[index].execute()
 
     def doAddShortcut(self):
         dialog = AddShortcutDialog.getDialog(self)
@@ -218,13 +227,13 @@ class Yawpm(QMainWindow):
             # create the listWidgetItem using the information in the shortcut manager
             #
             # Decide how to create the icon object for the shortcut in the listWidget
-            if os.path.isfile(shortcut["Icon"]):
-                icon = QIcon(shortcut["Icon"])
+            if os.path.isfile(shortcut.data["Icon"]):
+                icon = QIcon(shortcut.data["Icon"])
             else:
-                icon = QIcon().fromTheme(shortcut["Icon"])
+                icon = QIcon().fromTheme(shortcut.data["Icon"])
             item = QListWidgetItem(
                     icon,
-                    shortcut["Name"],
+                    shortcut.data["Name"],
                     self.ui.shortcutListWidget
                     )
         self.ui.shortcutListWidget.setCurrentRow(0)
@@ -234,6 +243,14 @@ class Yawpm(QMainWindow):
             print(i)
 
 if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    main = Yawpm()
-    sys.exit(app.exec_())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--launcher")
+    parser.add_argument("--reconfig", action='store_true')
+    args = parser.parse_args()
+    if (args.launcher == True):
+        print("I would launch something instead of showing a gui.")
+        sys.exit()
+    else:
+        app = QApplication(sys.argv)
+        main = Yawpm(args)
+        sys.exit(app.exec_())
